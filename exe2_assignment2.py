@@ -7,24 +7,29 @@ from random import *
 def PDF(x, mean, sigma): 
 	return (1./(sigma*sqrt(2*pi))) * exp(-0.5*(x-mean)**2/sigma**2)
 
-N = 10#1e5 #nr of random walks
-
 #--------------------------------------
 #random walks
+
+N = 10#1e5 #nr of random walks
 epsilon = 0.5 # changes S_c and will decide how fast the random walk converges
 maximum_number_of_iterations = 500
 
 final_delta_density = zeros(N) #storing the density values after realization to make histogram
+mean = 0 #defined to zero
+sigma_start = 0.5*1e-4 #< given in the exe.
+S_cstart = sqrt(sqrt(pi/sigma_old))
 
+figure(1)
 for k in range(N-1):
+	#values reset:
 	delta_density = zeros(maximum_number_of_iterations) #array to store the density values to plot random walk
 	S_c = zeros(maximum_number_of_iterations)
 	realization_time = 0
 
-	#first values:
-	mean = 0 #defined to zero
-	sigma_old = 0.5*1e-4 #< given in the exe.
-	S_c[0] = sqrt(sqrt(pi/sigma_old))
+	sigma_old = sigma_start
+	S_c[0] = S_cstart
+
+	#should draw new for each walk or same starting for each walk?
 	delta_density[0] = gauss(mean, sigma_old) #drawing a random nr from Gaussian distribution w. a mean, and sigma is the standard deviation.
 
 	for i in range(maximum_number_of_iterations):
@@ -51,10 +56,9 @@ for k in range(N-1):
 			print "density= ", final_delta_density[k]
 			break
 
-#	figure(1)
+
 	plot(S_c[0:realization_time-10], delta_density[0:realization_time-10])
 	#print delta_density[0:realization_time]
-	#plot(S_c[0], delta_density[0], 'bo-') #plotting first point blue
 
 plot(S_c[0:realization_time], 1 + zeros(realization_time), 'ro')
 xlabel('S_c')
