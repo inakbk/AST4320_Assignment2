@@ -16,12 +16,13 @@ epsilon = 0.05 # changes S_c and will decide how fast the random walk converges
 maximum_number_of_iterations = 500
 
 final_delta_density = zeros(N) #storing the density values after realization to make histogram
+threshold_delta_density = []
 mean = 0 #defined to zero
 sigma_start = 0.5*1e-4 #< given in the exe.
 S_cstart = sqrt(sqrt(pi/sigma_start))
 
 figure(1)
-for k in range(N-1):
+for k in range(N):
 	#values reset:
 	delta_density = zeros(maximum_number_of_iterations) #array to store the density values to plot random walk
 	S_c = zeros(maximum_number_of_iterations)
@@ -47,6 +48,8 @@ for k in range(N-1):
 			#print "Realization happened! realization_time= ", realization_time
 			#print "S_c= ", S_c[i]
 			final_delta_density[k] = delta_density[i+1]
+			if final_delta_density[k] < 1:
+				threshold_delta_density.append(final_delta_density[k])
 			#print "density= ", final_delta_density[k]
 			#print "-------"
 			break
@@ -67,17 +70,22 @@ title('Random walk of the density versus S_c')
 #show()
 
 #--------------------------------------
-#plotting the normalized histogram:
+#plotting the normalized histogram and PDF for all densities:
 figure(2)
 hist(final_delta_density, normed=1)
 
-#--------------------------------------
-#plotting the PDF:
 density_PDF = linspace(-15, 15, 1000) 
-
 sigma_PDF = sqrt(pi) # since S_c is 1 at the end of the chain?
 plot(density_PDF, PDF(density_PDF, mean, sigma_PDF), 'r')
 
+#--------------------------------------
+#plotting the normalized histogram and PDF for all densities under delta_crit:
+figure(3)
+threshold_delta_density = array(threshold_delta_density)
+hist(threshold_delta_density, normed=1)
+
+#same PDF:
+plot(density_PDF, PDF(density_PDF, mean, sigma_PDF), 'r')
 
 show()
 
