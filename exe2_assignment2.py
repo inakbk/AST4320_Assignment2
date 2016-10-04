@@ -28,7 +28,7 @@ density = linspace(-0.0002,0.0002,1000) # picking small density pertubations sin
 
 #--------------------------------------
 #random walks
-epsilon = 1e-1 # changes S_c and will decide how fast the random walk converges
+epsilon = 0.5 # changes S_c and will decide how fast the random walk converges
 realization_time = 0
 maximum_number_of_iterations = 500
 
