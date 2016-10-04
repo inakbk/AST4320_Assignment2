@@ -7,7 +7,7 @@ from random import *
 def PDF(x, mean, sigma): 
 	return (1./(sigma*sqrt(2*pi))) * exp(-0.5*(x-mean)**2/sigma**2)
 
-N = 10#1e5 #nr of random walks
+N = 1e5 #nr of random walks
 delta_density = zeros(N) #array to store the density values
 S_c = zeros(N)
 
@@ -33,39 +33,29 @@ n = 0
 
 for i in range(int(N-1)):
 	if S_c[i] < 1:
-		print "Realization happened! n= ", n
+		print "Realization happened! n= ", n, "S_c= ", S_c[i]
 		break
 	S_c[i+1] = S_c[i] - epsilon
 	sigma_new = pi/S_c[i+1]**4 
+	print S_c[i]
 	beta = gauss(mean, sqrt(sigma_new**2 - sigma_old**2))
-	print beta
 	delta_density[i+1] = delta_density[i] + beta
 
 	sigma_old = sigma_new #updating sigma
 	print n
 	n += 1
 
-
-print delta_density
-print S_c
+#print delta_density
+#print S_c
 
 figure(2)
 plot(S_c[0:n+1], delta_density[0:n+1], 'ro-')
 plot(S_c[0], delta_density[0], 'bo-') #plotting first point blue
+plot(S_c[0:n+1], 1 + zeros(n+1), 'g')
 xlabel('S_c')
 ylabel('delta_density')
+title('Random walk of the density versus S_c')
 show()
-
-
-
-
-
-
-
-
-
-
-
 
 
 
