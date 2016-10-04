@@ -10,14 +10,15 @@ def PDF(x, mean, sigma):
 #--------------------------------------
 #random walks
 
-N = 10#1e5 #nr of random walks
-epsilon = 0.5 # changes S_c and will decide how fast the random walk converges
+N = 100#1e5 #nr of random walks
+
+epsilon = 0.05 # changes S_c and will decide how fast the random walk converges
 maximum_number_of_iterations = 500
 
 final_delta_density = zeros(N) #storing the density values after realization to make histogram
 mean = 0 #defined to zero
 sigma_start = 0.5*1e-4 #< given in the exe.
-S_cstart = sqrt(sqrt(pi/sigma_old))
+S_cstart = sqrt(sqrt(pi/sigma_start))
 
 figure(1)
 for k in range(N-1):
@@ -32,41 +33,38 @@ for k in range(N-1):
 	#should draw new for each walk or same starting for each walk?
 	delta_density[0] = gauss(mean, sigma_old) #drawing a random nr from Gaussian distribution w. a mean, and sigma is the standard deviation.
 
+	#one random walk / realization:
 	for i in range(maximum_number_of_iterations):
 		S_c[i+1] = S_c[i] - epsilon
 		sigma_new = pi/S_c[i+1]**4 
-		#print S_c[i]
 		beta = gauss(mean, sqrt(sigma_new**2 - sigma_old**2))
 		delta_density[i+1] = delta_density[i] + beta
 
-		sigma_old = sigma_new #updating sigma
-		#print realization_time
+		sigma_old = sigma_new #resetting sigma
 		realization_time += 1
 
 		if S_c[i] < 1:
-			print "Realization happened! realization_time= ", realization_time
-			print "S_c= ", S_c[i]
+			#print "Realization happened! realization_time= ", realization_time
+			#print "S_c= ", S_c[i]
 			final_delta_density[k] = delta_density[i+1]
-			print "density= ", final_delta_density[k]
-			#print "density_next= ", delta_density[i+2]
+			#print "density= ", final_delta_density[k]
+			#print "-------"
 			break
 		if realization_time > maximum_number_of_iterations:
 			print "Maximum nr of iterations reached!!! (", maximum_number_of_iterations, ")"
 			final_delta_density[k] = delta_density[i+1]
 			print "density= ", final_delta_density[k]
+			print "-------"
 			break
 
+	plot(S_c[0:realization_time+1], delta_density[0:realization_time+1])
 
-	plot(S_c[0:realization_time-10], delta_density[0:realization_time-10])
-	#print delta_density[0:realization_time]
-
-plot(S_c[0:realization_time], 1 + zeros(realization_time), 'ro')
+plot(S_c[0:realization_time], 1 + zeros(realization_time), 'ro') #plotting delta_crit
 xlabel('S_c')
 ylabel('delta_density')
-#axis([0.5,S_c[0],-5,5])
+axis([0.5,S_c[0],-5,5])
 title('Random walk of the density versus S_c')
 show()
-
 
 #--------------------------------------
 #plotting the PDF:
