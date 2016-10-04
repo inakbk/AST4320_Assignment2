@@ -29,18 +29,22 @@ plot(density, PDF(density, mean, sigma_old))
 #--------------------------------------
 #random walks
 epsilon = 1e-1 # changes S_c and will decide how fast the random walk converges
+n = 0
 
-S_c[1] = S_c[0] - epsilon
-sigma_new = pi/S_c[1]**4 #sigma_2(S_2)
-beta = gauss(mean, sqrt(sigma_new**2 - sigma_old**2))
-delta_density[1] = delta_density[0] + beta
+for i in range(int(N)):
+	while S_c[i] < 1 or n < N:
+		S_c[i+1] = S_c[i] - epsilon
+		sigma_new = pi/S_c[i+1]**4 
+		beta = gauss(mean, sqrt(sigma_new**2 - sigma_old**2))
+		delta_density[i+1] = delta_density[i] + beta
 
-sigma_old = sigma_new #updating sigma
+		sigma_old = sigma_new #updating sigma
+		n += 1
 
 
 
 figure(2)
-plot(delta_density[0:2], S_c[0:2], 'ro')
+plot(delta_density[0:n+1], S_c[0:n+1], 'ro-')
 show()
 
 
