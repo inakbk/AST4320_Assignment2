@@ -10,7 +10,7 @@ def PDF(x, mean, sigma):
 #--------------------------------------
 #random walks
 
-N = 1000 #1e5 nr of random walks! :)
+N = 10000 #1e5 nr of random walks! :)
 
 epsilon = 0.05 # changes S_c and will decide how fast the random walk converges
 maximum_number_of_iterations = 500
@@ -75,7 +75,7 @@ figure(2)
 hist(final_delta_density, normed=1)
 
 density_PDF = linspace(-15, 15, 1000) 
-sigma_PDF = sqrt(pi) # since S_c is 1 at the end of the chain?
+sigma_PDF = sqrt(pi) # since S_c=1 at the end of the chain?
 plot(density_PDF, PDF(density_PDF, mean, sigma_PDF), 'r')
 
 #--------------------------------------
