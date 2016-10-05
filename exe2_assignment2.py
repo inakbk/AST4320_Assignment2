@@ -2,6 +2,7 @@
 
 from pylab import *
 from random import *
+import sys
 
 #The gaussian PDF
 def PDF(x, mean, sigma): 
@@ -16,8 +17,9 @@ def PDF_nc(x, mean, sigma):
 
 N = 10000 #1e5 nr of random walks! :)
 
-epsilon = 0.95 # changes S_c and will decide how fast the random walk converges (small=slow convergence)
-maximum_number_of_iterations = 1000
+epsilon = 0.05 # changes S_c and will decide how fast the random walk converges (small=slow convergence)
+maximum_number_of_iterations = 500
+abort_program = 0
 
 final_delta_density = zeros(N) #storing the density values after realization to make histogram
 threshold_delta_density = []
@@ -62,9 +64,13 @@ for k in range(N):
 			final_delta_density[k] = delta_density[i+1]
 			print "density= ", final_delta_density[k]
 			print "-------"
+			abort_program += 1
 			break
 
 	plot(S_c[0:realization_time+1], delta_density[0:realization_time+1])
+	if abort_program >= 10:
+		print "Program aborted! Maximum number of iterations exceeded in the loop 10 times!"
+		sys.exit()
 
 print realization_time
 plot(S_c[0:realization_time], delta_crit + zeros(realization_time), 'ro') #plotting delta_crit
