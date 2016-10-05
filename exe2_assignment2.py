@@ -7,6 +7,10 @@ from random import *
 def PDF(x, mean, sigma): 
 	return (1./(sigma*sqrt(2*pi))) * exp(-0.5*(x-mean)**2/sigma**2)
 
+delta_crit = 1
+def PDF_nc(x, mean, sigma): 
+	return (1./(sigma*sqrt(2*pi))) *( exp(-0.5*(x-mean)**2/sigma**2) - exp(-0.5*(2*delta_crit - x)**2/sigma**2) ) 
+
 #--------------------------------------
 #random walks
 
@@ -62,7 +66,7 @@ for k in range(N):
 
 	plot(S_c[0:realization_time+1], delta_density[0:realization_time+1])
 
-plot(S_c[0:realization_time], 1 + zeros(realization_time), 'ro') #plotting delta_crit
+plot(S_c[0:realization_time], delta_crit + zeros(realization_time), 'ro') #plotting delta_crit
 xlabel('S_c')
 ylabel('delta_density')
 axis([0.5,S_c[0],-5,5])
@@ -84,8 +88,8 @@ figure(3)
 threshold_delta_density = array(threshold_delta_density)
 hist(threshold_delta_density, normed=1)
 
-#same PDF:
-plot(density_PDF, PDF(density_PDF, mean, sigma_PDF), 'r')
+#other PDF:
+plot(density_PDF, PDF_nc(density_PDF, mean, sigma_PDF), 'r')
 
 show()
 
