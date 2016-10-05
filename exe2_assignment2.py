@@ -14,9 +14,9 @@ def PDF_nc(x, mean, sigma):
 #--------------------------------------
 #random walks
 
-N = 1000 #1e5 nr of random walks! :)
+N = 10000 #1e5 nr of random walks! :)
 
-epsilon = 0.02 # changes S_c and will decide how fast the random walk converges
+epsilon = 0.05 # changes S_c and will decide how fast the random walk converges
 maximum_number_of_iterations = 1000
 
 final_delta_density = zeros(N) #storing the density values after realization to make histogram
