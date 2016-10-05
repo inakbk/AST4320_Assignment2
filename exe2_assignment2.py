@@ -24,7 +24,7 @@ abort_program = 0
 final_delta_density = zeros(N) #storing the density values after realization to make histogram
 threshold_delta_density = []
 mean = 0 #defined to zero
-sigma_start = 0.5*1e-4 #< given in the exe.
+sigma_start = sqrt(0.5*1e-4) #< given in the exe.
 S_cstart = sqrt(sqrt(pi/sigma_start))
 
 figure(1)
@@ -50,7 +50,7 @@ for k in range(N):
 		sigma_old = sigma_new #resetting sigma
 		realization_time += 1
 
-		if S_c[i] < 1:
+		if S_c[i+1] < 1:
 			#print "Realization happened! realization_time= ", realization_time
 			#print "S_c= ", S_c[i]
 			final_delta_density[k] = delta_density[i+1]
@@ -85,7 +85,7 @@ title('Random walk of the density versus S_c')
 #--------------------------------------
 #plotting the normalized histogram and PDF for all densities:
 figure(2)
-hist(final_delta_density, normed=1, bins=100)
+hist(final_delta_density, normed=1, bins=300)
 
 density_PDF = linspace(-15, 15, 1000) 
 sigma_PDF = sqrt(pi) # since S_c=1 at the end of the chain?
@@ -95,7 +95,7 @@ plot(density_PDF, PDF(density_PDF, mean, sigma_PDF), 'r')
 #plotting the normalized histogram and PDF for all densities under delta_crit:
 figure(3)
 threshold_delta_density = array(threshold_delta_density)
-hist(threshold_delta_density, normed=1, bins=800)
+hist(threshold_delta_density, normed=1, bins=150)
 
 #other PDF:
 plot(density_PDF, PDF_nc(density_PDF, mean, sigma_PDF), 'r')
