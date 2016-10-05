@@ -17,7 +17,7 @@ def PDF_nc(x, mean, sigma):
 
 N = 1000 #1e5 nr of random walks! :)
 
-epsilon = 0.05 # changes S_c and will decide how fast the random walk converges (small=slow convergence)
+epsilon = 0.009 # changes S_c and will decide how fast the random walk converges (small=slow convergence)
 maximum_number_of_iterations = 500
 abort_program = 0
 
@@ -51,7 +51,6 @@ for k in range(N):
 		realization_time += 1
 
 		if S_c[i] < 1:
-			print "S_c at realization: ", S_c[i]
 			#print "Realization happened! realization_time= ", realization_time
 			#print "S_c= ", S_c[i]
 			final_delta_density[k] = delta_density[i+1]
@@ -73,7 +72,9 @@ for k in range(N):
 		print "Program aborted! Maximum number of iterations exceeded in the loop 10 times!"
 		sys.exit()
 
-print realization_time
+print "last realization_time: ", realization_time
+print "S_c at last realization: ", S_c[i]
+
 plot(S_c[0:realization_time], delta_crit + zeros(realization_time), 'ro') #plotting delta_crit
 xlabel('S_c')
 ylabel('delta_density')
