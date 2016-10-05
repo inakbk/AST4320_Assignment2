@@ -16,7 +16,7 @@ def PDF_nc(x, mean, sigma):
 
 N = 1000 #1e5 nr of random walks! :)
 
-epsilon = 0.05 # changes S_c and will decide how fast the random walk converges
+epsilon = 0.01 # changes S_c and will decide how fast the random walk converges
 maximum_number_of_iterations = 500
 
 final_delta_density = zeros(N) #storing the density values after realization to make histogram
@@ -57,7 +57,7 @@ for k in range(N):
 			#print "density= ", final_delta_density[k]
 			#print "-------"
 			break
-		if realization_time > maximum_number_of_iterations:
+		if realization_time +1 >= maximum_number_of_iterations:
 			print "Maximum nr of iterations reached!!! (", maximum_number_of_iterations, ")"
 			final_delta_density[k] = delta_density[i+1]
 			print "density= ", final_delta_density[k]
@@ -76,7 +76,7 @@ title('Random walk of the density versus S_c')
 #--------------------------------------
 #plotting the normalized histogram and PDF for all densities:
 figure(2)
-hist(final_delta_density, normed=1, bins=20)
+hist(final_delta_density, normed=1)#, bins=20)
 
 density_PDF = linspace(-15, 15, 1000) 
 sigma_PDF = sqrt(pi) # since S_c=1 at the end of the chain?
@@ -86,7 +86,7 @@ plot(density_PDF, PDF(density_PDF, mean, sigma_PDF), 'r')
 #plotting the normalized histogram and PDF for all densities under delta_crit:
 figure(3)
 threshold_delta_density = array(threshold_delta_density)
-hist(threshold_delta_density, normed=1, bins=20)
+hist(threshold_delta_density, normed=1)#, bins=20)
 
 #other PDF:
 plot(density_PDF, PDF_nc(density_PDF, mean, sigma_PDF), 'r')
