@@ -17,7 +17,7 @@ def PDF_nc(x, mean, sigma):
 
 N = 1000 #1e5 nr of random walks! :)
 
-epsilon = 0.009 # changes S_c and will decide how fast the random walk converges (small=slow convergence)
+epsilon = 0.99 # changes S_c and will decide how fast the random walk converges (small=slow convergence)
 maximum_number_of_iterations = 500
 abort_program = 0
 
