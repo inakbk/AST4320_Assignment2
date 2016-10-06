@@ -15,7 +15,7 @@ def PDF_nc(x, mean, sigma):
 #--------------------------------------
 #random walks
 
-N = 10000 #1e5 nr of random walks! :)
+N = 100 #1e5 nr of random walks! :)
 
 epsilon = 0.99 # changes S_c and will decide how fast the random walk converges (small=too fast convergence)
 maximum_number_of_iterations = 500
@@ -52,7 +52,8 @@ for k in range(N):
 
 		if S_c[i+1] < 1:
 			#print "Realization happened! realization_time= ", realization_time
-			#print "S_c= ", S_c[i]
+			#print "S_c= ", S_c[i+1]
+			print "sigma at realization minus sqrt(pi): ", sqrt(pi/S_c[i+1]**4)-sqrt(pi)
 			final_delta_density[k] = delta_density[i+1]
 			if max(delta_density) < 1:
 				threshold_delta_density.append(final_delta_density[k])
@@ -68,6 +69,7 @@ for k in range(N):
 			break
 
 	plot(S_c[0:realization_time+1], delta_density[0:realization_time+1])
+	plot(S_c[0], delta_density[0], 'rx') #plotting starting point
 	if abort_program >= 10:
 		print "Program aborted! Maximum number of iterations exceeded in the loop 10 times!"
 		sys.exit()
@@ -95,7 +97,7 @@ plot(density_PDF, PDF(density_PDF, mean, sigma_PDF), 'r')
 #plotting the normalized histogram and PDF for all densities under delta_crit:
 figure(3)
 threshold_delta_density = array(threshold_delta_density)
-n, bins, patches = hist(threshold_delta_density, normed=True, bins=50, color='b')
+n, bins, patches = hist(threshold_delta_density, normed=True, bins=100, color='b')
 
 #the other PDF:
 raw = PDF_nc(density_PDF, mean, sigma_PDF)
@@ -104,7 +106,7 @@ for i in range(len(density_PDF)):
 	if density_PDF[i] >= delta_crit:
 		raw[i] = 0
 
-plot(density_PDF, raw, 'g')
+plot(density_PDF, raw, 'r', linewidth=3)
 
 """
 #normalized version
