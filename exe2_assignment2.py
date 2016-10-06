@@ -99,11 +99,15 @@ hist(threshold_delta_density, normed=1, bins=150)
 
 #normalizing the other PDF:
 raw = PDF_nc(density_PDF, mean, sigma_PDF)
+for i in range(len(density_PDF)):
+	if density_PDF[i] >= delta_crit:
+		raw[i] = 0
+
 s = sum(abs(raw))
-norm = [float(i)/s for i in raw]
+norm_PDF_nc = [float(i)/s for i in raw]
 print "unnormalized sum: ", s
-print "normalized sum: ", sum(abs(array(norm)))
-plot(density_PDF, norm, 'r')
+print "normalized sum: ", sum(abs(array(norm_PDF_nc)))
+plot(density_PDF, norm_PDF_nc, 'r')
 
 
 show()
