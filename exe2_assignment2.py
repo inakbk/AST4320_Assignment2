@@ -97,8 +97,14 @@ figure(3)
 threshold_delta_density = array(threshold_delta_density)
 hist(threshold_delta_density, normed=1, bins=150)
 
-#other PDF:
-plot(density_PDF, PDF_nc(density_PDF, mean, sigma_PDF), 'r')
+#normalizing the other PDF:
+raw = PDF_nc(density_PDF, mean, sigma_PDF)
+s = sum(abs(raw))
+norm = [float(i)/s for i in raw]
+print "unnormalized sum: ", s
+print "normalized sum: ", sum(abs(array(norm)))
+plot(density_PDF, norm, 'r')
+
 
 show()
 
