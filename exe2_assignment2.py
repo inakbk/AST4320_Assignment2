@@ -88,7 +88,7 @@ figure(2)
 hist(final_delta_density, normed=1, bins=300)
 
 density_PDF = linspace(-12, 2, 1000) 
-sigma_PDF = sqrt(pi) # since S_c=1 at the end of the chain?
+sigma_PDF = sqrt(pi) # since S_c=1 at the end of the chain
 plot(density_PDF, PDF(density_PDF, mean, sigma_PDF), 'r')
 
 #--------------------------------------
