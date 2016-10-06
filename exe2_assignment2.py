@@ -1,7 +1,7 @@
 # exe 2, assignment 2
 
 from pylab import *
-from random import *
+import random
 import sys
 
 #The gaussian PDF
@@ -38,13 +38,13 @@ for k in range(N):
 	S_c[0] = S_cstart
 
 	#should draw new for each walk or same starting for each walk?
-	delta_density[0] = gauss(mean, sigma_old) #drawing a random nr from Gaussian distribution w. a mean, and sigma is the standard deviation.
+	delta_density[0] = random.gauss(mean, sigma_old) #drawing a random nr from Gaussian distribution w. a mean, and sigma is the standard deviation.
 
 	#one random walk / realization:
 	for i in range(maximum_number_of_iterations):
 		S_c[i+1] = S_c[i] * epsilon
 		sigma_new = pi/S_c[i+1]**4 
-		beta = gauss(mean, sqrt(sigma_new**2 - sigma_old**2))
+		beta = random.gauss(mean, sqrt(sigma_new**2 - sigma_old**2))
 		delta_density[i+1] = delta_density[i] + beta
 
 		sigma_old = sigma_new #resetting sigma
