@@ -54,7 +54,7 @@ for k in range(N):
 			#print "Realization happened! realization_time= ", realization_time
 			#print "S_c= ", S_c[i]
 			final_delta_density[k] = delta_density[i+1]
-			if final_delta_density[k] < 1:
+			if max(delta_density) < 1:
 				threshold_delta_density.append(final_delta_density[k])
 			#print "density= ", final_delta_density[k]
 			#print "-------"
@@ -96,6 +96,7 @@ plot(density_PDF, PDF(density_PDF, mean, sigma_PDF), 'r')
 figure(3)
 threshold_delta_density = array(threshold_delta_density)
 n, bins, patches = hist(threshold_delta_density, normed=True, bins=150, color='b')
+"""
 print sum(n)
 n, bins = histogram(threshold_delta_density, density=True, bins=50)
 print sum(n)
@@ -103,11 +104,11 @@ s1 = sum(n)
 n_normed = [float(i)/s1 for i in n]
 print sum(n_normed)
 
-
+#normalized histogram?
 width = 0.7 * (bins[1] - bins[0])
 center = (bins[:-1] + bins[1:]) / 2
-bar(center, n_normed, align='center', width=width, color='r')
-
+bar(center, n_normed, align='center', width=width, color='g')
+"""
 
 # need to normalize the other PDF:
 raw = PDF_nc(density_PDF, mean, sigma_PDF)
@@ -121,6 +122,7 @@ print "unnormalized sum: ", s
 print "normalized sum: ", sum(abs(array(norm_PDF_nc)))
 plot(density_PDF, norm_PDF_nc, 'r')
 
+plot(density_PDF, raw, 'g')
 
 show()
 
