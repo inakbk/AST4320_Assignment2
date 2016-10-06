@@ -95,8 +95,10 @@ plot(density_PDF, PDF(density_PDF, mean, sigma_PDF), 'r')
 #plotting the normalized histogram and PDF for all densities under delta_crit:
 figure(3)
 threshold_delta_density = array(threshold_delta_density)
-hist(threshold_delta_density, normed=1, bins=150)
-print sum(threshold_delta_density)
+n, bins, patches = hist(threshold_delta_density, normed=True, bins=150)
+print sum(n)
+n, bins = histogram(threshold_delta_density, density=True, bins=150)
+print sum(abs(n))
 
 # need to normaliz the other PDF:
 raw = PDF_nc(density_PDF, mean, sigma_PDF)
