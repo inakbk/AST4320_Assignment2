@@ -93,17 +93,17 @@ title('Random walk of the density versus S_c')
 #--------------------------------------
 #plotting the normalized histogram and PDF for all densities:
 figure(2)
-hist(final_delta_density, normed=1, bins=sqrt(N))
+hist(final_delta_density, normed=1, bins=sqrt(N)-50, color='b')
 
 density_PDF = linspace(-9, 9, 1000) 
 sigma_PDF = sqrt(pi) # since S_c=1 at the end of the chain
-plot(density_PDF, PDF(density_PDF, mean, sigma_PDF), 'r', linewidth=3)
+plot(density_PDF, PDF(density_PDF, mean, sigma_PDF), 'r', linewidth=4)
 
 #--------------------------------------
 #plotting the normalized histogram and PDF for all densities under delta_crit:
 figure(3)
 threshold_delta_density = array(threshold_delta_density)
-n, bins, patches = hist(threshold_delta_density, normed=True, bins=sqrt(N), color='b')
+hist(threshold_delta_density, normed=True, bins=sqrt(N)-50, color='g')
 
 #the other PDF:
 raw = PDF_nc(density_PDF, mean, sigma_PDF)
@@ -111,32 +111,8 @@ raw = PDF_nc(density_PDF, mean, sigma_PDF)
 for i in range(len(density_PDF)):
 	if density_PDF[i] >= delta_crit:
 		raw[i] = 0
+normalization_constant = math.erf(1./(sqrt(2)*sigma_PDF))
 
-plot(density_PDF, raw/math.erf(1./(sqrt(2)*sigma_PDF)), 'r', linewidth=3)
-
-
-"""
-#normalized version
-figure(4)
-print sum(n)
-n, bins = histogram(threshold_delta_density, density=True, bins=50)
-print sum(n)
-s1 = sum(n)
-n_normed = [float(i)/s1 for i in n]
-print sum(n_normed)
-
-#normalized histogram?
-width = 0.7 * (bins[1] - bins[0])
-center = (bins[:-1] + bins[1:]) / 2
-bar(center, n_normed, align='center', width=width, color='g')
-"""
-s = sum(abs(raw))
-norm_PDF_nc = [float(i)/s for i in raw] #normalizing
-print "unnormalized sum: ", s
-print "normalized sum: ", sum(abs(array(norm_PDF_nc)))
-plot(density_PDF, norm_PDF_nc, 'g')
-
-
-
+plot(density_PDF, raw/normalization_constant, 'r', linewidth=4)
 
 show()
