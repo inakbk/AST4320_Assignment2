@@ -72,9 +72,7 @@ for k in range(N):
 			abort_program += 1
 			break
 
-	loglog(S_c[0:realization_time+1], delta_density[0:realization_time+1])
-	loglog(S_c[0], delta_density[0], 'ro') #plotting starting point
-	#plot(S_c[realization_time], delta_density[realization_time], 'ko') #plotting ending point
+	plot(S_c[0:realization_time+1], delta_density[0:realization_time+1]) #could also have plotted in log scale, but is more intuituve to look at non-log + its so pretty
 	
 	if abort_program >= 10:
 		print "Program aborted! Maximum number of iterations exceeded in the loop 10 times!"
@@ -83,7 +81,7 @@ for k in range(N):
 print "last realization_time: ", realization_time
 print "S_c at last realization: ", S_c[i+1]
 
-loglog(S_c[0:realization_time], delta_crit + zeros(realization_time), 'ro') #plotting delta_crit
+plot(S_c[0:realization_time], delta_crit + zeros(realization_time), 'ro') #plotting delta_crit
 xlabel('S_c')
 ylabel('delta_density')
 axis([0.5,S_c[0],-5,5])
