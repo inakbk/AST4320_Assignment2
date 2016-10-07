@@ -15,7 +15,7 @@ def PDF_nc(x, mean, sigma):
 #--------------------------------------
 #random walks
 
-N = 10 #1e5 nr of random walks! :)
+N = 10000 #1e5 nr of random walks! :)
 
 epsilon = 0.99 # changes S_c and will decide how fast the random walk converges (small=too fast convergence)
 maximum_number_of_iterations = 500
@@ -85,7 +85,7 @@ ylabel('delta_density')
 axis([0.5,S_c[0],-5,5])
 title('Random walk of the density versus S_c')
 #show()
-"""
+
 #--------------------------------------
 #plotting the normalized histogram and PDF for all densities:
 figure(2)
@@ -109,7 +109,7 @@ for i in range(len(density_PDF)):
 		raw[i] = 0
 
 plot(density_PDF, raw, 'r', linewidth=3)
-"""
+
 
 
 """
