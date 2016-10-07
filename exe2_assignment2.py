@@ -72,8 +72,8 @@ for k in range(N):
 			abort_program += 1
 			break
 
-	#plot(S_c[0:realization_time+1], delta_density[0:realization_time+1], 'x-')
-	#plot(S_c[0], delta_density[0], 'ro') #plotting starting point
+	loglog(S_c[0:realization_time+1], delta_density[0:realization_time+1])
+	loglog(S_c[0], delta_density[0], 'ro') #plotting starting point
 	#plot(S_c[realization_time], delta_density[realization_time], 'ko') #plotting ending point
 	
 	if abort_program >= 10:
@@ -82,28 +82,31 @@ for k in range(N):
 
 print "last realization_time: ", realization_time
 print "S_c at last realization: ", S_c[i+1]
-"""
-plot(S_c[0:realization_time], delta_crit + zeros(realization_time), 'ro') #plotting delta_crit
+
+loglog(S_c[0:realization_time], delta_crit + zeros(realization_time), 'ro') #plotting delta_crit
 xlabel('S_c')
 ylabel('delta_density')
 axis([0.5,S_c[0],-5,5])
 title('Random walk of the density versus S_c')
-#show()
-"""
+
 #--------------------------------------
-#plotting the normalized histogram and PDF for all densities:
+#plotting the normalized histogram and PDF for all walkers at realization:
 figure(2)
-hist(final_delta_density, normed=1, bins=45, color='b')
+hist(final_delta_density, normed=1, bins=42, color='b')
 
 density_PDF = linspace(-9, 9, 1000) 
 sigma_PDF = sqrt(pi) # since S_c=1 at the end of the chain
 plot(density_PDF, PDF(density_PDF, mean, sigma_PDF), 'r', linewidth=4)
+xlabel('delta_density')
+ylabel('# counts / probability')
+legend(['Numerical', "Analytical"])
+title('Histogram of the density for $S_C = 1$ together with the analytical \n solution given.')
 
 #--------------------------------------
 #plotting the normalized histogram and PDF for all densities under delta_crit:
 figure(3)
 threshold_delta_density = array(threshold_delta_density)
-hist(threshold_delta_density, normed=True, bins=25, color='g')
+hist(threshold_delta_density, normed=True, bins=28, color='g')
 
 #the other PDF:
 raw = PDF_nc(density_PDF, mean, sigma_PDF)
@@ -111,8 +114,13 @@ raw = PDF_nc(density_PDF, mean, sigma_PDF)
 for i in range(len(density_PDF)):
 	if density_PDF[i] >= delta_crit:
 		raw[i] = 0
-normalization_constant = math.erf(1./(sqrt(2)*sigma_PDF))
+normalization_constant = math.erf(1./(sqrt(2)*sigma_PDF)) #calculated analytically
 
 plot(density_PDF, raw/normalization_constant, 'r', linewidth=4)
+xlabel('delta_density < delta_crit')
+ylabel('# counts / probability')
+legend(['Numerical', "Analytical"])
+title('Histogram of the density pertubations that never crossed $\delta_{crit}$ \n for $S_C = 1$ together with the analytical solution given.')
+
 
 show()
