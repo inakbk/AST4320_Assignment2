@@ -15,7 +15,7 @@ def PDF_nc(x, mean, sigma):
 #--------------------------------------
 #random walks
 
-N = 10000 #1e5 nr of random walks! :)
+N = 1000 #1e5 nr of random walks! :)
 
 epsilon = 0.99 # changes S_c and will decide how fast the random walk converges (small=too fast convergence)
 maximum_number_of_iterations = 500
@@ -25,7 +25,7 @@ final_delta_density = zeros(N) #storing the density values after realization to 
 threshold_delta_density = []
 mean = 0 #defined to zero
 sigma_start = sqrt(0.5*1e-4) #< given in the exe.
-S_cstart = sqrt(sqrt(pi/sigma_start))
+S_cstart = (pi/sigma_start**2)**(1./4.)
 
 figure(1)
 for k in range(N):
@@ -43,9 +43,12 @@ for k in range(N):
 	#one random walk / realization:
 	for i in range(maximum_number_of_iterations):
 		S_c[i+1] = S_c[i] * epsilon
-		sigma_new = pi/S_c[i+1]**4 
+		sigma_new = sqrt(pi/S_c[i+1]**4)
 		beta = random.gauss(mean, sqrt(sigma_new**2 - sigma_old**2))
 		delta_density[i+1] = delta_density[i] + beta
+		#print sigma_old
+		#print sigma_new
+		#exit()
 
 		sigma_old = sigma_new #resetting sigma
 		realization_time += 1
@@ -53,7 +56,7 @@ for k in range(N):
 		if S_c[i+1] < 1:
 			#print "Realization happened! realization_time= ", realization_time
 			#print "S_c= ", S_c[i+1]
-			print "sigma at realization minus sqrt(pi): ", sqrt(pi/S_c[i+1]**4)-sqrt(pi)
+			#print "sigma at realization minus sqrt(pi): ", sqrt(pi/S_c[i+1]**4)-sqrt(pi)
 			final_delta_density[k] = delta_density[i+1]
 			if max(delta_density) < 1:
 				threshold_delta_density.append(final_delta_density[k])
@@ -77,19 +80,19 @@ for k in range(N):
 		sys.exit()
 
 print "last realization_time: ", realization_time
-print "S_c at last realization: ", S_c[i]
-
+print "S_c at last realization: ", S_c[i+1]
+"""
 plot(S_c[0:realization_time], delta_crit + zeros(realization_time), 'ro') #plotting delta_crit
 xlabel('S_c')
 ylabel('delta_density')
 axis([0.5,S_c[0],-5,5])
 title('Random walk of the density versus S_c')
 #show()
-
+"""
 #--------------------------------------
 #plotting the normalized histogram and PDF for all densities:
 figure(2)
-hist(final_delta_density, normed=1, bins=300)
+hist(final_delta_density, normed=1, bins=80)
 
 density_PDF = linspace(-12, 2, 1000) 
 sigma_PDF = sqrt(pi) # since S_c=1 at the end of the chain
@@ -99,7 +102,7 @@ plot(density_PDF, PDF(density_PDF, mean, sigma_PDF), 'r', linewidth=3)
 #plotting the normalized histogram and PDF for all densities under delta_crit:
 figure(3)
 threshold_delta_density = array(threshold_delta_density)
-n, bins, patches = hist(threshold_delta_density, normed=True, bins=100, color='b')
+n, bins, patches = hist(threshold_delta_density, normed=True, bins=50, color='b')
 
 #the other PDF:
 raw = PDF_nc(density_PDF, mean, sigma_PDF)
@@ -126,13 +129,13 @@ print sum(n_normed)
 width = 0.7 * (bins[1] - bins[0])
 center = (bins[:-1] + bins[1:]) / 2
 bar(center, n_normed, align='center', width=width, color='g')
-
+"""
 s = sum(abs(raw))
 norm_PDF_nc = [float(i)/s for i in raw] #normalizing
 print "unnormalized sum: ", s
 print "normalized sum: ", sum(abs(array(norm_PDF_nc)))
 plot(density_PDF, norm_PDF_nc, 'r')
-"""
+
 
 
 
