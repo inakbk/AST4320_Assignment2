@@ -93,7 +93,7 @@ title('Random walk of the density versus S_c')
 #--------------------------------------
 #plotting the normalized histogram and PDF for all densities:
 figure(2)
-hist(final_delta_density, normed=1, bins=sqrt(N)-50, color='b')
+hist(final_delta_density, normed=1, bins=45, color='b')
 
 density_PDF = linspace(-9, 9, 1000) 
 sigma_PDF = sqrt(pi) # since S_c=1 at the end of the chain
@@ -103,7 +103,7 @@ plot(density_PDF, PDF(density_PDF, mean, sigma_PDF), 'r', linewidth=4)
 #plotting the normalized histogram and PDF for all densities under delta_crit:
 figure(3)
 threshold_delta_density = array(threshold_delta_density)
-hist(threshold_delta_density, normed=True, bins=sqrt(N)-50, color='g')
+hist(threshold_delta_density, normed=True, bins=25, color='g')
 
 #the other PDF:
 raw = PDF_nc(density_PDF, mean, sigma_PDF)
