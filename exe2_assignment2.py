@@ -94,7 +94,7 @@ title('Random walk of the density versus S_c')
 figure(2)
 hist(final_delta_density, normed=1, bins=sqrt(N))
 
-density_PDF = linspace(-12, 2, 1000) 
+density_PDF = linspace(-9, 9, 1000) 
 sigma_PDF = sqrt(pi) # since S_c=1 at the end of the chain
 plot(density_PDF, PDF(density_PDF, mean, sigma_PDF), 'r', linewidth=3)
 
@@ -111,8 +111,7 @@ for i in range(len(density_PDF)):
 	if density_PDF[i] >= delta_crit:
 		raw[i] = 0
 
-plot(density_PDF, raw, 'r', linewidth=3)
-
+plot(density_PDF, raw/(sqrt(2)*pi), 'r', linewidth=3)
 
 
 """
@@ -134,7 +133,7 @@ s = sum(abs(raw))
 norm_PDF_nc = [float(i)/s for i in raw] #normalizing
 print "unnormalized sum: ", s
 print "normalized sum: ", sum(abs(array(norm_PDF_nc)))
-plot(density_PDF, norm_PDF_nc, 'r')
+plot(density_PDF, norm_PDF_nc, 'g')
 
 
 
