@@ -1,6 +1,7 @@
 # exe 2, assignment 2
 
 from pylab import *
+import math
 import random
 import sys
 
@@ -111,7 +112,7 @@ for i in range(len(density_PDF)):
 	if density_PDF[i] >= delta_crit:
 		raw[i] = 0
 
-plot(density_PDF, raw/(sqrt(2)*pi), 'r', linewidth=3)
+plot(density_PDF, raw/math.erf(1./(sqrt(2)*sigma_PDF)), 'r', linewidth=3)
 
 
 """
